@@ -1,0 +1,12 @@
+## List of AWS production web servers
+[webservers]
+13.42.18.78
+13.40.145.127
+
+
+## Variables to connect to servers
+[webservers:vars]
+ansible_ssh_user = ec2-user
+ansible_ssh_private_key_file = /etc/ansible/.ssh/myHostsKeyPair.pem
+ansible_become = true
+

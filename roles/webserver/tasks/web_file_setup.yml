@@ -1,0 +1,16 @@
+# Tasks to create and store website files.
+
+# Create web root directory to store web file.
+# Permission set to 755 - Giving owner (root) full permission
+- name: Create /var/www/nominet_test directory to store the website files on the target box.
+  file:
+    path: "{{ httpd_doc_root }}"
+    state: directory
+    mode: '0755'
+
+# Copy index.html to httpd web root directory.
+- name: Copy website files to the appropriate directory on the target box.
+  copy:
+    src: "{{ html_index_src }}"
+    dest: "{{ html_index_dest }}"
+

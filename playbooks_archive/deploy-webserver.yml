@@ -1,0 +1,46 @@
+- name: Install Apache webserver
+  hosts: test_server
+
+  tasks:
+    - name: Install Apache HTTPd on the target Red Hat box.
+      dnf:
+        name: httpd
+        state: latest
+
+    - name: Ensure that the Apache service is started and enabled to start on system boot.
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create /var/www/nominet_test directory to store the website files on the target box.
+      file:
+        path: /var/www/nominet_test
+        state: directory
+        mode: '0755'
+
+    - name: Copy website files to the appropriate directory on the target box.
+      copy:
+        src: /etc/ansible/roles/common/templates/index.html
+        dest: /var/www/nominet_test/index.html    
+   
+    - name: check if /etc/httpd/conf.d/nominet_server.conf exists
+      stat:
+        path: /etc/httpd/conf.d/nominet_server.conf
+      register: server_conf
+
+    - name: If /etc/httpd/conf.d/nominet_server.conf does not exists, create it.
+      when: "not server_conf.stat.exists"
+      block:
+        - name: Configure the Apache server to serve the website from /var/www/nominet_test.
+          template:
+            src: /etc/ansible/roles/common/templates/httpd.conf.j2
+            dest: /etc/httpd/conf.d/nominet_server.conf
+      
+        - name: Restart httpd service after config change.
+          service:
+            name: httpd
+            state: restarted
+
+
+

@@ -1,0 +1,7 @@
+---
+- hosts: test_servers
+  tasks:
+    - name: Upgrade server to latest patch.
+      dnf:
+        name: "*"
+        state: latest

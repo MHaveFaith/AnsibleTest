@@ -1,0 +1,18 @@
+[test_server]
+35.176.197.248
+
+[dev_server]
+18.130.146.99
+
+[staging:children]
+dev_server
+test_server
+
+## Variables to connect to servers
+[staging:vars]
+ansible_ssh_user = ec2-user
+ansible_ssh_private_key_file = /etc/ansible/.ssh/myHostsKeyPair.pem
+ansible_become = true
+
+
+

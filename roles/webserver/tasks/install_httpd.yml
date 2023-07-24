@@ -1,0 +1,15 @@
+# Defined tasks will install httpd and start the httpd service.
+
+# State present is to keep httpd on current version.
+- name: Install Apache HTTPd on the target Red Hat box.
+  dnf:
+    name: httpd
+    state: present
+
+# Start httpd service on webservers and set to enabled.
+- name: Start httpd service and enabled to start on system boot.
+  service:
+    name: httpd
+    state: started
+    enabled: true
+

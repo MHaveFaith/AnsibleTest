@@ -1,0 +1,13 @@
+# Variables applicable to all servers in inventory.
+
+# Directory to create HTML document root for web server 
+httpd_doc_root: /var/www/nominet_test
+
+# Source and destination to for index.html file. This will be the landing page.
+html_index_src: /etc/ansible/roles/webserver/templates/index.html
+html_index_dest: /var/www/nominet_test/index.html
+
+# Source and destination httpd configuration.
+httpd_conf_src: /etc/ansible/roles/webserver/templates/httpd.conf.j2
+httpd_conf_dest: /etc/httpd/conf.d/nominet_server.conf
+

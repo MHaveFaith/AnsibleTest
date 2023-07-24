@@ -1,0 +1,20 @@
+# This task will check to see if a httpd config has already been set for the server.
+
+- name: check if /etc/httpd/conf.d/nominet_server.conf exists
+  stat:
+    path: "{{ httpd_conf_dest }}"
+  register: server_conf
+
+- name: If /etc/httpd/conf.d/nominet_server.conf does not exists, create it.
+  when: "not server_conf.stat.exists"
+  block:
+    - name: Configure the Apache server to serve the website from /var/www/nominet_test.
+      template:
+        src: "{{ httpd_conf_src }}"
+        dest: "{{ httpd_conf_dest }}"
+
+    # Restart the httpd service
+    - name: Restart httpd service after config change.
+      service:
+        name: httpd
+        state: restarted

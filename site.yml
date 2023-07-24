@@ -1,0 +1,7 @@
+# This playbook will deploy and config apache webservice to servers.
+
+- name: Configure and deploy apache.
+  hosts: webservers
+
+  roles:
+    - webserver
